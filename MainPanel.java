@@ -17,7 +17,7 @@ public class MainPanel extends JPanel {
 
     public int _r = 1000;
     
-    private boolean _running = false;
+    public boolean _running = false;
 
     public int getCellsSize() {
 	return _size;
@@ -45,7 +45,7 @@ public class MainPanel extends JPanel {
 	return q;
     }
     
-    private int getNumNeighbors(int x, int y) {
+    public int getNumNeighbors(int x, int y) {
 	int size = _size;
 	int leftX = (x - 1) % size;
 	int rightX = (x + 1) % size;
@@ -68,28 +68,28 @@ public class MainPanel extends JPanel {
 	if (_cells[x][upY].getAlive())        { numNeighbors++; }
 	if (_cells[x][downY].getAlive())      { numNeighbors++; }
 	    
-	return convertToInt(numNeighbors);
+	return numNeighbors;
 
     }
 
     private boolean iterateCell(int x, int y) {
-	boolean toReturn = false;
-	boolean alive = _cells[x][y].getAlive();
-	int numNeighbors = getNumNeighbors(x, y);
-	if (alive) {
-	    if (numNeighbors < 2 || numNeighbors > 3) {
-		toReturn = false;
-	    } else {
-		toReturn = true;
-	    }
-	} else {
-	    if (numNeighbors == 3) {
-		toReturn = true;
-	    } else {
-		toReturn = false;
-	    }
-	}
-	return toReturn;
+		boolean toReturn = false;
+		boolean alive = _cells[x][y].getAlive();
+		int numNeighbors = getNumNeighbors(x, y);
+		if (alive) {
+			if (numNeighbors < 2 || numNeighbors > 3) {
+			toReturn = false;
+			} else {
+			toReturn = true;
+			}
+		} else {
+			if (numNeighbors == 3) {
+			toReturn = true;
+			} else {
+			toReturn = false;
+			}
+		}
+		return toReturn;
 
     }
 
@@ -126,13 +126,18 @@ public class MainPanel extends JPanel {
      */
     
     public void backup() {
-	_backupCells = new Cell[_size][_size];
-	for (int j = 0; j < _size; j++) {
-	    for (int k = 0; k < _size; k++) {
-		_backupCells[j][k] = new Cell();
-		_backupCells[j][k].setAlive(_cells[j][k].getAlive());
-	    }
-	}
+
+		_backupCells = _cells;
+
+		/*	
+		_backupCells = new Cell[_size][_size];
+		for (int j = 0; j < _size; j++) {
+			for (int k = 0; k < _size; k++) {
+			_backupCells[j][k] = new Cell();
+			_backupCells[j][k].setAlive(_cells[j][k].getAlive());
+			}
+		}
+	*/
     }
 
     /**
@@ -224,9 +229,6 @@ public class MainPanel extends JPanel {
 	while (_running) {
 	    System.out.println("Running...");
 	    int origR = _r;
-	    try {
-		Thread.sleep(20);
-	    } catch (InterruptedException iex) { }
 	    for (int j=0; j < _maxCount; j++) {
 	    	_r += (j % _size) % _maxCount;
 		_r += _maxCount;
@@ -353,5 +355,6 @@ public class MainPanel extends JPanel {
 	}
 
     }
-	
+
+
 }
