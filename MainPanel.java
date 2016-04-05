@@ -126,10 +126,6 @@ public class MainPanel extends JPanel {
      */
     
     public void backup() {
-
-		_backupCells = _cells;
-
-		/*	
 		_backupCells = new Cell[_size][_size];
 		for (int j = 0; j < _size; j++) {
 			for (int k = 0; k < _size; k++) {
@@ -137,7 +133,6 @@ public class MainPanel extends JPanel {
 			_backupCells[j][k].setAlive(_cells[j][k].getAlive());
 			}
 		}
-	*/
     }
 
     /**
@@ -228,12 +223,6 @@ public class MainPanel extends JPanel {
 	_running = true;
 	while (_running) {
 	    System.out.println("Running...");
-	    int origR = _r;
-	    for (int j=0; j < _maxCount; j++) {
-	    	_r += (j % _size) % _maxCount;
-		_r += _maxCount;
-	    }
-	    _r = origR;
 	    backup();
 	    calculateNextIteration();
 	}
